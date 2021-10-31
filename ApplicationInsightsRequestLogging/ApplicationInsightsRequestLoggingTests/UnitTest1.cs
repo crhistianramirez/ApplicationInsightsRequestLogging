@@ -1,6 +1,7 @@
 using Azureblue.ApplicationInsights.RequestLogging;
 using FluentAssertions;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -33,13 +34,16 @@ namespace ApplicationInsightsRequestLoggingTests
                 Path = "/"
             };
 
-            var fakeChannel = new FakeTelemetryChannel();
-            var config = new TelemetryConfiguration
+            var client = new TelemetryClient(new TelemetryConfiguration
             {
-                TelemetryChannel = fakeChannel,
+                TelemetryChannel = new FakeTelemetryChannel(),
                 InstrumentationKey = "some key"
+            });
+
+            var o = new ApplicationInsightsServiceOptions()
+            {
+                // ?
             };
-            var client = new TelemetryClient(config);
 
             using var host = await new HostBuilder()
                 .ConfigureWebHost(webBuilder =>
@@ -49,7 +53,7 @@ namespace ApplicationInsightsRequestLoggingTests
                         .ConfigureServices(services =>
                         {
                             //services.AddSingleton(typeof(ITelemetryChannel), new FakeTelemetryChannel());
-                            //services.AddApplicationInsightsTelemetry();
+                            services.AddApplicationInsightsTelemetry(o);
                             services.AddSingleton(client);
                             services.AddRequestLogging(options);
                         })
@@ -74,6 +78,8 @@ namespace ApplicationInsightsRequestLoggingTests
         }
     }
 
+    // Taken from https://jrolstad.medium.com/unit-testing-and-microsoft-application-insights-6db0929b39e6
+    // https://docs.microsoft.com/en-us/azure/azure-monitor/app/telemetry-channels#what-are-telemetry-channels
     public class FakeTelemetryChannel : ITelemetryChannel
     {
         public ConcurrentBag<ITelemetry> SentTelemtries = new ConcurrentBag<ITelemetry>();
