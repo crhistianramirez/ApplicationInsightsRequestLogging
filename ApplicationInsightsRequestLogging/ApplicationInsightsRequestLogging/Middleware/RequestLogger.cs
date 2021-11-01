@@ -1,4 +1,5 @@
-﻿using Microsoft.ApplicationInsights.DataContracts;
+﻿using Azureblue.ApplicationInsights.RequestLogging.Service;
+using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;

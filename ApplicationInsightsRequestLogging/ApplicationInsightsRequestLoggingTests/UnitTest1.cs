@@ -3,14 +3,11 @@ using FluentAssertions;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.ApplicationInsights.Channel;
-using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Moq;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Http;
@@ -20,7 +17,9 @@ using Xunit;
 namespace ApplicationInsightsRequestLoggingTests
 {
     public class UnitTest1
-    {
+    {        
+        // Should_Send_Body_To_AppInsights
+
         [Fact]
         public async Task Test1Async()
         {
