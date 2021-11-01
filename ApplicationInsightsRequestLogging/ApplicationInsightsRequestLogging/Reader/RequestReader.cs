@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Azureblue.ApplicationInsights.RequestLogging.Service
+namespace Azureblue.ApplicationInsights.RequestLogging
 {
-    public class RequestReader : IRequestReader
+    public class RequestReader : IReader
     {
         public async Task<string> ReadAsync(HttpContext context, int bytes, string cutOffText)
         {

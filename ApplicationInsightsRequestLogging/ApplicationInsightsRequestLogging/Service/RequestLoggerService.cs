@@ -9,9 +9,9 @@ namespace Azureblue.ApplicationInsights.RequestLogging
     public class RequestLoggerService : IRequestLoggerService
     {
         private readonly RequestLoggerOptions options;
-        private readonly IRequestReader reader;
+        private readonly IReader reader;
 
-        public RequestLoggerService(RequestLoggerOptions options, IRequestReader reader)
+        public RequestLoggerService(RequestLoggerOptions options, IReader reader)
         {
             this.options = options;
             this.reader = reader;

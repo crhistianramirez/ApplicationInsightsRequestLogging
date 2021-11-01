@@ -5,6 +5,7 @@ using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +20,28 @@ namespace ApplicationInsightsRequestLoggingTests
     public class UnitTest1
     {        
         // Should_Send_Body_To_AppInsights
+
+        [Fact]
+        public async Task FooAsync()
+        {   
+            var context = new DefaultHttpContext();
+            context.Request.Path = "/";
+            var wasExecuted = false;
+
+            RequestDelegate next = (HttpContext ctx) =>
+            {
+                wasExecuted = true;
+                return Task.CompletedTask;
+            };
+
+            var options = new RequestLoggerOptions();
+
+            var middleware = new RequestLogger(options);
+
+            await middleware.InvokeAsync(context, next);
+
+            wasExecuted.Should().BeTrue();
+        }
 
         [Fact]
         public async Task Test1Async()

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Azureblue.ApplicationInsights.RequestLogging
 {
-    public interface IRequestReader
+    public interface IReader
     {
         public Task<string> ReadAsync(HttpContext context, int bytes, string cutOffText);
     }
