@@ -43,7 +43,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-Finally configure the request pipeline. 
+Finally configure the request pipeline. You'll want to make sure you add `UseAppInsightsHttpBodyLogging` near the top of the pipeline so that it is processed first and can do its logging before some other part of the middleware possibly takes over (for example `UseMvc`).
 
 ```csharp
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
